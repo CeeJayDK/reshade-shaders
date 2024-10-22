@@ -298,16 +298,21 @@ namespace MyNamespace
 
 #### Supported flow-control statements:
 
- * ``if ([condition]) { [statement...] } [else { [statement...] }]``  
-   Statements after if are only executed  if condition is true, otherwise the ones after else are executed (if it exists).
- * ``switch ([expression]) { [case [constant]/default]: [statement...] }``  
-   Selects the case matching the switch expression or default if non does and it exists.
- * ``for ([declaration]; [condition]; [iteration]) { [statement...] }``  
-   Runs the statements in the body as long as the condition is true. The iteration expression is executed after each run.
- * ``while ([condition]) { [statement...] }``  
-   Runs the statements in the body as long as the condition is true.
- * ``do { [statement...] } while ([condition]);``  
-   Similar to a normal while loop with the difference that the statements are executed at least once.
+ * ``[attribute] if ([condition]) { [statement...] } [else { [statement...] }]``  
+   Statements after if are only executed  if condition is true, otherwise the ones after else are executed (if it exists).  
+   Possible attributes are : ``[flatten]`` and ``[branch]``  
+ * ``[attribute] switch ([expression]) { [case [constant]/default]: [statement...] }``  
+   Selects the case matching the switch expression or default if non does and it exists.  
+   Possible attributes are : ``[flatten]``, ``[branch]``, ``[forcecase]`` and ``[call]``  
+ * ``[attribute] for ([declaration]; [condition]; [iteration]) { [statement...] }``  
+   Runs the statements in the body as long as the condition is true. The iteration expression is executed after each run.  
+   Possible attributes are : ``[unroll(x)]``, ``[loop]``, ``[fastopt]`` and ``[allow_uav_condition]``  
+ * ``[attribute] while ([condition]) { [statement...] }``  
+   Runs the statements in the body as long as the condition is true.  
+   Possible attributes are : ``[unroll(x)]``, ``[loop]``, ``[fastopt]`` and ``[allow_uav_condition]``  
+ * ``[attribute] do { [statement...] } while ([condition]);``  
+   Similar to a normal while loop with the difference that the statements are executed at least once.  
+   Possible attributes are : ``[fastopt]``  
  * ``break;``  
    Breaks out  of the current loop or switch statement and jumps to the statement after.
  * ``continue;``  
