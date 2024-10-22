@@ -639,7 +639,7 @@ technique Example < ui_tooltip = "This is an example!"; >
 
 		// Set to false to disable automatic rebuilding of the mipmap chain of all render targets and/or storage objects.
 		// This is useful when using a compute shader that writes to specific mipmap levels, rather than relying on the automatic generation.
-		// Note that the texture must have MipLevels set to a number higher than 1 for this to work;
+		// Note that the texture must have MipLevels set to a number higher than 1 for this to work.
 		GenerateMipMaps = true;
 		
 		// A mask applied to the color output before it is written to the render target.
