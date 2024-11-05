@@ -24,7 +24,7 @@ The ReShade FX compiler predefines certain preprocessor macros, as listed below:
 * ``__LINE__`` Current line number
 * ``__RESHADE__`` Version of the injector (in the format `MAJOR * 10000 + MINOR * 100 + REVISION`)
 * ``__APPLICATION__`` 32-bit truncated Fnv1a hash of the application executable name
-* ``__VENDOR__`` Vendor id (e.g. 0x10de for NVIDIA, 0x1002 for AMD)
+* ``__VENDOR__`` Vendor id (e.g. 0x10de for NVIDIA, 0x1002 for AMD, 0x8086 for Intel)
 * ``__DEVICE__`` Device id
 * ``__RENDERER__`` Graphics API used to render effects
   * D3D9: 0x9000
