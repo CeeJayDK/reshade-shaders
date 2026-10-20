@@ -6,7 +6,7 @@
 Each package's DownloadUrl is read the way ReShade's setup installs it (setup/MainWindow.xaml.cs): the archive's first
 folder named Shaders, else the shortest folder holding an .fx file, and every .fx file below it, minus DenyEffectFiles.
 EffectFiles is then corrected in place: names no longer in the download are removed, names only in the download are
-added at the end (sorted), names that differ only in case take the download's spelling. Everything else in the file is
+added at the end (sorted), names that differ only in case take the download's spelling, names in DenyEffectFiles are removed. Everything else in the file is
 left as it is. A package whose download fails is left unchanged and listed in the report.
 """
 import io, os, re, sys, tempfile, urllib.request, zipfile
@@ -77,11 +77,12 @@ def main(ini, report):
             lines[i] = "EffectFiles=" + ",".join(new) + end
             old_l = {f.lower() for f in listed}
             new_l = {f.lower() for f in new}
-            gone = [f for f in listed if f.lower() not in new_l]
+            denied = [f for f in listed if f.lower() not in new_l and f.lower() in deny]
+            gone = [f for f in listed if f.lower() not in new_l and f.lower() not in deny]
             came = [f for f in new if f.lower() not in old_l]
             case = [f for f in new if f.lower() in old_l and f not in listed]
             parts = ([f"removed {', '.join(gone)}"] if gone else []) + ([f"added {', '.join(came)}"] if came else []) + \
-                    ([f"spelling {', '.join(case)}"] if case else [])
+                    ([f"spelling {', '.join(case)}"] if case else []) +                     ([f"removed {', '.join(denied)} (in DenyEffectFiles: setup deletes them)"] if denied else [])
             rows.append(f"- {name} {title}: " + "; ".join(parts))
         print(f"{name} {title}: {len(found)} effects", flush=True)
     open(ini, "wb").write("".join(lines).encode("utf-8"))
