@@ -1,0 +1,46 @@
+# Keeps EffectFiles in EffectPackages.ini (branch list) in step with the effects each package actually ships:
+# downloads every package as the setup does and opens (or updates) a pull request against list when a list is off.
+name: effect-files
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * 1"  # weekly, Monday
+  push:
+    paths: [.github/effect_files.py, .github/workflows/effect-files.yml]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+          path: tool
+      - uses: actions/checkout@v4
+        with:
+          ref: list
+          path: list
+      - name: Check every package
+        run: |
+          python3 -I tool/.github/effect_files.py list/EffectPackages.ini report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        working-directory: list
+        run: |
+          if git diff --quiet; then echo "EffectFiles are up to date"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B effect-files-update
+          git commit -qam "Update EffectFiles from the packages' downloads"
+          git push -f origin effect-files-update
+          if [ -z "$(gh pr list --head effect-files-update --base list --json number -q '.[].number')" ]; then
+            gh pr create --base list --head effect-files-update --title "Update EffectFiles from the packages' downloads" --body-file ../report.md
+          else
+            gh pr edit effect-files-update --body-file ../report.md
+          fi
