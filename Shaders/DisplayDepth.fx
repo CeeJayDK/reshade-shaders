@@ -33,14 +33,17 @@
 #define TEXT_LOGARITHMIC_ALTER "1"
 #endif
 
-#include "DisplayDepth_L10N.fxh" //Include the Translations
+#include "DisplayDepth_L10N.fxh" // Translated strings (JA_*)
 
 // "ui_text" was introduced in ReShade 4.5, so cannot show instructions in older versions
 
 uniform int iUIPresentType <
     ui_label = "Present type";
+    ui_label_ja_jp = JA_PRESENT_TYPE_LABEL;
     ui_type = "combo";
     ui_items = "Depth map\0Normal map\0Show both (Vertical 50/50)\0";
+    ui_items_ja_jp = JA_PRESENT_TYPE_ITEMS;
+    ui_tooltip_ja_jp = JA_PRESENT_TYPE_TOOLTIP;
 #if __RESHADE__ < 40500
     ui_tooltip =
 #else
@@ -57,24 +60,27 @@ uniform int iUIPresentType <
         "\n"
         "RESHADE_DEPTH_INPUT_IS_LOGARITHMIC is currently set to " TEXT_LOGARITHMIC ".\n"
         "If the Normal map has banding artifacts (extra stripes) set it to " TEXT_LOGARITHMIC_ALTER ".";
-UI_PRESENT_TYPE_L10N
+    ui_text_ja_jp = JA_PRESENT_TYPE_TEXT;
 > = 2;
 
 uniform bool bUIShowOffset <
     ui_label = "Blend Depth map into the image (to help with finding the right offset)";
-	UI_SHOW_OFFSET_L10N
+    ui_label_ja_jp = JA_SHOW_OFFSET_LABEL;
+    ui_tooltip_ja_jp = JA_SHOW_OFFSET_TOOLTIP;
 > = false;
 
 uniform bool bUIUseLivePreview <
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
 #if __RESHADE__ <= 50902
     ui_category_closed = true;
 #elif !ADDON_ADJUST_DEPTH
     ui_category_toggle = true;
 #endif
     ui_label = "Show live preview and ignore preprocessor definitions";
+    ui_label_ja_jp = JA_LIVE_PREVIEW_LABEL;
     ui_tooltip = "Enable this to preview with the current preset settings instead of the global preprocessor settings.";
-	UI_USE_LIVE_PREVIEW_L10N
+    ui_tooltip_ja_jp = JA_LIVE_PREVIEW_TOOLTIP;
 > = false;
 
 #if __RESHADE__ <= 50902
@@ -83,12 +89,15 @@ uniform int iUIUpsideDown <
 uniform bool iUIUpsideDown <
 #endif
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Upside Down";
+    ui_label_ja_jp = JA_UPSIDE_DOWN_LABEL;
 #if __RESHADE__ <= 50902
     ui_type = "combo";
     ui_items = "Off\0On\0";
 #endif
-UI_UPSIDE_DOWN_L10N
+    ui_text_ja_jp = JA_UPSIDE_DOWN_TEXT;
+    ui_tooltip_ja_jp = JA_UPSIDE_DOWN_TOOLTIP;
 > = RESHADE_DEPTH_INPUT_IS_UPSIDE_DOWN;
 
 //-----
@@ -99,12 +108,14 @@ uniform int iUIReversed <
 uniform bool iUIReversed <
 #endif
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Reversed";
+    ui_label_ja_jp = JA_REVERSED_LABEL;
 #if __RESHADE__ <= 50902
     ui_type = "combo";
     ui_items = "Off\0On\0";
 #endif
-UI_REVERSED_L10N
+    ui_tooltip_ja_jp = JA_REVERSED_TOOLTIP;
 > = RESHADE_DEPTH_INPUT_IS_REVERSED;
 //---
 #if __RESHADE__ <= 50902
@@ -113,20 +124,24 @@ uniform int iUILogarithmic <
 uniform bool iUILogarithmic <
 #endif
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Logarithmic";
+    ui_label_ja_jp = JA_LOGARITHMIC_LABEL;
 #if __RESHADE__ <= 50902
     ui_type = "combo";
     ui_items = "Off\0On\0";
 #endif
     ui_tooltip = "Change this setting if the displayed surface normals have stripes in them.";
-UI_LOGARITHMIC_L10N
+    ui_tooltip_ja_jp = JA_LOGARITHMIC_TOOLTIP;
 > = RESHADE_DEPTH_INPUT_IS_LOGARITHMIC;
 
 // -- Advanced options --
 
 uniform float2 fUIScale <
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Scale";
+    ui_label_ja_jp = JA_SCALE_LABEL;
     ui_type = "drag";
     ui_text =
         "\n"
@@ -136,6 +151,7 @@ uniform float2 fUIScale <
         "You can preview how they will affect the Depth map using the controls below.\n"
         "\n"
         "It is rarely necessary to change these though, as their defaults fit almost all games.\n\n";
+    ui_text_ja_jp = JA_SCALE_TEXT;
     ui_tooltip =
         "Best use 'Present type'->'Depth map' and enable 'Offset' in the options below to set the scale.\n"
         "Use these values for:\nRESHADE_DEPTH_INPUT_X_SCALE=<left value>\nRESHADE_DEPTH_INPUT_Y_SCALE=<right value>\n"
@@ -145,19 +161,21 @@ uniform float2 fUIScale <
         "For example:\n"
         "If it thinks the resolution is 1920 x 1080, but it's really 1280 x 720 then the right scale is (1.5 , 1.5)\n"
         "because 1920 / 1280 is 1.5 and 1080 / 720 is also 1.5, so 1.5 is the right scale for both the x and the y";
-    UI_SCALE_L10N
+    ui_tooltip_ja_jp = JA_SCALE_TOOLTIP;
     ui_min = 0.0; ui_max = 2.0;
     ui_step = 0.001;
 > = float2(RESHADE_DEPTH_INPUT_X_SCALE, RESHADE_DEPTH_INPUT_Y_SCALE);
 
 uniform int2 iUIOffset <
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Offset";
+    ui_label_ja_jp = JA_OFFSET_LABEL;
     ui_type = "slider";
     ui_tooltip =
         "Best use 'Present type'->'Depth map' and enable 'Offset' in the options below to set the offset in pixels.\n"
         "Use these values for:\nRESHADE_DEPTH_INPUT_X_PIXEL_OFFSET=<left value>\nRESHADE_DEPTH_INPUT_Y_PIXEL_OFFSET=<right value>";
-	UI_OFFSET_L10N
+    ui_tooltip_ja_jp = JA_OFFSET_TOOLTIP;
     ui_min = -BUFFER_SCREEN_SIZE;
     ui_max = BUFFER_SCREEN_SIZE;
     ui_step = 1;
@@ -165,22 +183,26 @@ uniform int2 iUIOffset <
 
 uniform float fUIFarPlane <
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Far Plane";
+    ui_label_ja_jp = JA_FAR_PLANE_LABEL;
     ui_type = "drag";
-    ui_tooltip = 
+    ui_tooltip =
         "RESHADE_DEPTH_LINEARIZATION_FAR_PLANE=<value>\n"
         "Changing this value is not necessary in most cases.";
-	UI_FAR_PLANE_L10N
+    ui_tooltip_ja_jp = JA_FAR_PLANE_TOOLTIP;
     ui_min = 0.0; ui_max = 1000.0;
     ui_step = 0.1;
 > = RESHADE_DEPTH_LINEARIZATION_FAR_PLANE;
 
 uniform float fUIDepthMultiplier <
     ui_category = "Preview settings";
+    ui_category_ja_jp = JA_PREVIEW_CATEGORY;
     ui_label = "Multiplier";
+    ui_label_ja_jp = JA_MULTIPLIER_LABEL;
     ui_type = "drag";
     ui_tooltip = "RESHADE_DEPTH_MULTIPLIER=<value>";
-	UI_MULTIPLIER_L10N
+    ui_tooltip_ja_jp = JA_MULTIPLIER_TOOLTIP;
     ui_min = 0.0; ui_max = 1000.0;
     ui_step = 0.001;
 > = RESHADE_DEPTH_MULTIPLIER;
@@ -274,7 +296,7 @@ technique DisplayDepth <
         "By default calculated normals and depth are shown side by side.\n"
         "Normals (on the left) should look smooth and the ground should be greenish when looking at the horizon.\n"
         "Depth (on the right) should show close objects as dark and use gradually brighter shades the further away objects are.\n";
-	UI_TECHNIQUE_L10N
+    ui_tooltip_ja_jp = JA_TECHNIQUE_TOOLTIP;
 >
 
 {
